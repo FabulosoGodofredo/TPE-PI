@@ -4,7 +4,7 @@ char * oaci;
 char * iata;
 unsigned int denominacion;
 unsigned int trafico;
-struct node * tail;
+struct AeropuertoT * tail;
 }AeropuertoT;
 
 typedef struct VuelosT{
@@ -12,4 +12,5 @@ char * fecha;
 unsigned int tipo;
 char * origen;
 char * destino;
-struct node *
+struct VuelosT * tail;
+
