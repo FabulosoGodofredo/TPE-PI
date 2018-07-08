@@ -1,1 +1,15 @@
-Felipe puto y cagoooooooooooooooooon
+typedef struct AeropuertoT{
+char * local;
+char * oaci;
+char * iata;
+unsigned int denominacion;
+unsigned int trafico;
+struct node * tail;
+}AeropuertoT;
+
+typedef struct VuelosT{
+char * fecha;
+unsigned int tipo;
+char * origen;
+char * destino;
+struct node *
