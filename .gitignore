@@ -22,7 +22,7 @@ size_t takeoffs;
 size_t landings;
 size_t landingsInter;
 size_t takeoffsInter;
-struct mainAirportADT nextMain;
+mainAirportADT nextMain;
 subAirADT firstSub;
 }mainAirport;
 
