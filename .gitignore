@@ -1,9 +1,9 @@
-typedef struct MoveXaero{
+typedef struct subAero{
 char * oaci;
 size_t cant_desp;
 size_t cant_ater;
 struct MoveXaero * next;
-}MoveXaero;
+}subAeroT;
 
 typedef struct Aeropuerto{
 char * oaci;
@@ -17,5 +17,4 @@ size_t cant_ater_inter;
 size_t cant_desp_inter;
 struct AeropueroT * next;
 MoveXaero * first;
-}AeropuertoT
-
+}AeropuertoT;
