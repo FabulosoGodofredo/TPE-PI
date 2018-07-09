@@ -19,8 +19,10 @@ struct Aeropuerto * next;
 subAero * first;
 }Aeropuerto;
 
-void
-newLista()
+Aeropuerto
+newLista(){
+Aeropuerto first=NULL;
+}
 
 void
 freeLista()
