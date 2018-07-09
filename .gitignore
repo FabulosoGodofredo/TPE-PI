@@ -9,7 +9,7 @@ typedef struct subAir{
 char * oaci;
 size_t takeoffs; //amount of flight that takeoff from this specific subAirport to corresponding mainAirpot 
 size_t landings; //amount of flight that land on this specific subAirport from corresponding mainAirport
-struct subAirADT nextSub;
+subAirADT nextSub;
 }subAir;
 
 typedef struct mainAirport{
