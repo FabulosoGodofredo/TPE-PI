@@ -1,3 +1,6 @@
+typedef struct Aeropuerto * AeropuertoADT;
+typedef struct subAero * subAeroADT;
+
 typedef struct subAero{
 char * oaci;
 size_t cant_desp;
@@ -19,9 +22,10 @@ struct Aeropuerto * next;
 subAero * first;
 }Aeropuerto;
 
-Aeropuerto
-newLista(){
-Aeropuerto first=NULL;
+AeropuertoADT
+newLista(void)
+{
+AeropuertoADT first=NULL;
 return first;
 }
 
