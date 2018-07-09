@@ -15,6 +15,6 @@ size_t cant_ater;
 size_t cant_desp;
 size_t cant_ater_inter;
 size_t cant_desp_inter;
-struct Aeropuero * next;
+struct Aeropuerto * next;
 subAero * first;
 }AeropuertoT;
