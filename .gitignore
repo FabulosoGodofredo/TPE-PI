@@ -3,7 +3,7 @@ char * oaci;
 size_t cant_desp;
 size_t cant_ater;
 struct subAero * next;
-}subAeroT;
+}subAero;
 
 typedef struct Aeropuerto{
 char * oaci;
@@ -15,6 +15,6 @@ size_t cant_ater;
 size_t cant_desp;
 size_t cant_ater_inter;
 size_t cant_desp_inter;
-struct AeropueroT * next;
+struct Aeropuero * next;
 subAero * first;
 }AeropuertoT;
