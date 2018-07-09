@@ -1,41 +1,45 @@
-typedef struct Aeropuerto * AeropuertoADT;
-typedef struct subAero * subAeroADT;
+typedef struct mainAirport * mainAirportADT;
+typedef struct subAir * subAirADT;
 
-typedef struct subAero{
+*/ List of sub lists where every node on the main list is an Airport from the Airport.cvs file so that all Airports are included
+in alphabetical order according to their oaci. The sublists of every node consist of Airports arranged in aplhabetical order 
+according to oaci (that may or may not be on the main list) that had a flight takeoff to or landed from the main node´s Airport /*
+
+typedef struct subAir{
 char * oaci;
-size_t cant_desp;
-size_t cant_ater;
-struct subAero * next;
-}subAero;
+size_t takeoffs; //amount of flight that takeoff from this specific subAirport to corresponding mainAirpot 
+size_t landings; //amount of flight that land on this specific subAirport from corresponding mainAirport
+struct subAirADT next;
+}subAir;
 
-typedef struct Aeropuerto{
+typedef struct mainAirport{
 char * oaci;
 char * local;
 char * iata;
-char * info;
-size_t traffic; // 0 nacional 1 internacional
-size_t cant_ater;
-size_t cant_desp;
-size_t cant_ater_inter;
-size_t cant_desp_inter;
-struct Aeropuerto * next;
-subAero * first;
-}Aeropuerto;
+char * info; // name of Airport
+size_t traffic; // 0 national 1 international
+size_t takeoffs;
+size_t landings;
+size_t landingsInter;
+size_t takeoffsInter;
+struct mainAirportADT next;
+subAirADT first;
+}mainAirport;
 
-AeropuertoADT
-newLista(void)
+mainAirportADT
+newList(void)
 {
-AeropuertoADT first=NULL;
+mainAirportADT first=NULL;
 return first;
 }
 
 void
-freeLista()
+freeList()
 
 int
-addAero()
+addmainAir()
 
 int
-addsubAero()
+addsubAir()
 
 
