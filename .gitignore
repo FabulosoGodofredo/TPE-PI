@@ -1,3 +1,4 @@
+typedef struct listCDT * listADT;
 typedef struct mainAirport * mainAirportADT;
 typedef struct subAir * subAirADT;
 
@@ -26,11 +27,29 @@ mainAirportADT nextMain;
 subAirADT firstSub;
 }mainAirport;
 
-mainAirportADT
+typedef struct listCDT{
+size_t Lunes;
+size_t Martes;
+size_t Miercoles;
+size_t Jueves;
+size_t Viernes;
+size_t Sabado;
+size_t Domingo;
+mainAirportADT firstMain;
+}listCDT;
+
+listADT
 newList(void)
 {
-mainAirportADT firstMain=NULL;
-return firstMain;
+list=calloc(sizeof(listCDT),1);
+return list;
+}
+
+void
+freeList(ListADT list)
+{
+freeMain(list->firstMain);
+free(list);
 }
 
 void
