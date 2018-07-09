@@ -1,16 +1,21 @@
-typedef struct AeropuertoT{
-char * local;
+typedef struct MoveXaero{
 char * oaci;
-char * iata;
-unsigned int denominacion;
-unsigned int trafico;
-struct AeropuertoT * tail;
-}AeropuertoT;
+size_t cant_desp;
+size_t cant_ater;
+struct MoveXaero * next;
+}MoveXaero;
 
-typedef struct VuelosT{
-char * fecha;
-unsigned int tipo;
-char * origen;
-char * destino;
-struct VuelosT * tail;
+typedef struct Aeropuerto{
+char * oaci;
+char * local;
+char * iata;
+char * info;
+size_t traffic; // 0 nacional 1 internacional
+size_t cant_ater;
+size_t cant_desp;
+size_t cant_ater_inter;
+size_t cant_desp_inter;
+struct AeropueroT * next;
+MoveXaero * first;
+}AeropuertoT
 
