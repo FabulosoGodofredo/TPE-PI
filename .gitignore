@@ -17,4 +17,18 @@ size_t cant_ater_inter;
 size_t cant_desp_inter;
 struct Aeropuerto * next;
 subAero * first;
-}AeropuertoT;
+}Aeropuerto;
+
+void
+newLista()
+
+void
+freeLista()
+
+int
+addAero()
+
+int
+addsubAero()
+
+
