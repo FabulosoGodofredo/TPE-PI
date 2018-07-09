@@ -34,7 +34,23 @@ return firstMain;
 }
 
 void
-freeList()
+freerecMain(mainAirportADT firstMain)
+{
+if(firstMain!=NULL)
+{
+freerecSub(firstMain->firstSub);
+freerecMain(firstMain->nextMain);
+free(firstMain);
+}
+
+void
+freerecSub(subAirADT firstSub)
+{
+if(firstSub!=NULL)
+{
+freerecSub(firstSub->nextSub);
+free(firstSub);
+}
 
 int
 addmainAir()
