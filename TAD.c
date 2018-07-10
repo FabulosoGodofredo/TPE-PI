@@ -219,7 +219,7 @@ if(flagday)
   return 1;
 }
 
-void
+static void
 QuerryUNOrec(FILE *f, mainAirportADT l)
 {
 if(l==NULL)
