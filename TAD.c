@@ -126,15 +126,15 @@ return l;
 }
 
 int                                                                                                       //Here we save all the relations between two airports, a relation is made when a flight is made from one airport to another. We do not create a new sublist to any airport that is not in the main list.
-addSubAir(listADT l, char * oaciOr, char * oaciDest, size_t day, size_t type, size_t movement)            //type:aterrizaje=0/despegue=1,  movement:cabotaje=0/internacional=1
+addSubAir(listADT l, char * oaciOr, char * oaciDest, size_t day, size_t type, size_t movement,size_t flagday)            //type:aterrizaje=0/despegue=1,  movement:cabotaje=0/internacional=1 flagday tells us if that flight was already added to the week array or not.
 {
   int flag=0;
   if (l == NULL || l->firstMain == NULL)
   {
     return 0;
   }
-
-  (l.week[day-1])++;
+if(flagday)
+  (l.week[day])++;
 
   if(!(search(l->firstMain,oaciOr,oaciDest,type,movement)))
   {
