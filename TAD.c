@@ -122,6 +122,93 @@ return l;
 }
 
 int
-addsubAir()
+addSubAir(listADT l, char * oaciOr, char * oaciDest, size_t day, size_t type, size_t movement)            //type:aterrizaje=0/despegue=1,  movement:cabotaje=0/internacional=1
+{
+  int flag=0;
+  if (l == NULL || l->firstMain == NULL)
+  {
+    return 0;
+  }
+
+  (l.week[day-1])++;
+
+  if(!(search(l->firstMain,oaciOr,oaciDest,type,movement)))
+  {
+    return 0;
+  }
+  return 1;
+}
+
+int
+search(mainAirportADT m, char * oaciOr, char * oaciDest, size_t type,size_t movement)
+{
+  if (m == NULL || (strcmp(m->oaci,oaciOr))>0)
+  {
+    return 0;
+  }
+  else if((strcmp(m->oaci,oaciOr))<0)
+  {
+    return search(m->nextMain,oaciOr,oaciDest,type);
+  }
+  else
+  {
+    int flag=0;
+    if (movement==1) 
+    {
+      if (type) 
+      {
+        (m->takeoffsInter)++;
+      }
+      else
+        (m->landingsInter)++;
+    }
+    if(type)
+    (m->takoffs)++;
+    else
+    (m->landings)++;
+    m->firstSub=addSubAirRec(m->firstSub,oaciDest,type,&flag);
+    return flag;
+  }
+}
+
+subAirADT
+addSubAirRec(subAirADT node, char * oaciDest,int type, int *flag)
+{
+  if (node == NULL || (strcmp(node->oaci,oaciDest))>0)
+  {
+    subAirADT new = calloc(sizeof(*new));
+    new->oaci=malloc(4);
+    if (new!=NULL && new->oaci!=NULL)
+    {
+      strcpy(new->oaci,oaciDest);
+      *flag=1;
+      if (type)          //es despegue
+      {
+        (new->takeoffs)++;
+      }
+      else
+        (new->landings)++;
+      return new;
+    }
+    return node;
+  }
+  else if ((strcmp(node->oaci,oaciDest))==0)
+  {
+    *flag=1;
+    if (type)          //es despegue
+    {
+      (node->takeoffs)++;
+    }
+    else
+      (node->landings)++;
+    return node;
+  }
+  else
+  {
+    node->nextSub = addSubAirRec(node->nextSub,oaciDest,type,flag);
+    return node;
+  }
+}
+
 
 
