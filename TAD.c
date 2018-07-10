@@ -93,7 +93,7 @@ return 0;
 }
 
 mainAirportADT
-addmainAirRec(listADT l, char * oaci, char * local, char * iata, char * info, size_t traffic, int *flag)
+addmainAirRec(mainAirportADT l, char * oaci, char * local, char * iata, char * info, size_t traffic, int *flag)
 {
 if(l==NULL || strcmp(l->oaci,oaci)>0)
 	{
