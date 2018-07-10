@@ -61,6 +61,10 @@ if(firstMain!=NULL)
 {
 freerecSub(firstMain->firstSub);
 freerecMain(firstMain->nextMain);
+free(firstMain->oaci);
+free(firstMain->local);
+free(firstMain->iata);
+free(firstMain->info);
 free(firstMain);
 }
 return;
@@ -72,6 +76,7 @@ freerecSub(subAirADT firstSub)
 if(firstSub!=NULL)
 	{
 	freerecSub(firstSub->nextSub);
+	free(firstSub->oaci);
 	free(firstSub);
 	}
 return;
