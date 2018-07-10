@@ -61,14 +61,18 @@ freerecSub(firstMain->firstSub);
 freerecMain(firstMain->nextMain);
 free(firstMain);
 }
+return;
+}
 
 void
 freerecSub(subAirADT firstSub)
 {
 if(firstSub!=NULL)
-{
-freerecSub(firstSub->nextSub);
-free(firstSub);
+	{
+	freerecSub(firstSub->nextSub);
+	free(firstSub);
+	}
+return;
 }
 
 int
