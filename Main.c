@@ -174,6 +174,11 @@ main(void)
     return 1;
   }
 
-
+QuerryUNO(list);
+QuerryDOS(list);
+QuerryTRES(list);
+QuerryCUATRO(list);
+freeList(list);
+  
   return 0;
 }
