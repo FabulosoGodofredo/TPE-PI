@@ -54,7 +54,7 @@ freerecMain(list->firstMain);
 free(list);
 }
 
-void
+static void
 freerecMain(mainAirportADT firstMain)
 {
 if(firstMain!=NULL)
@@ -70,7 +70,7 @@ free(firstMain);
 return;
 }
 
-void
+static void
 freerecSub(subAirADT firstSub)
 {
 if(firstSub!=NULL)
@@ -92,7 +92,7 @@ if(flag)
 return 0;
 }
 
-mainAirportADT
+static mainAirportADT
 addmainAirRec(mainAirportADT l, char * oaci, char * local, char * iata, char * info, size_t traffic, int *flag)
 {
 if(l==NULL || strcmp(l->oaci,oaci)>0)
