@@ -96,7 +96,7 @@ if(l==NULL || strcmp(l->oaci,oaci)>0)
 	aux->oaci=malloc(5);
 	aux->local=malloc(4);
 	aux->iata=malloc(strlen(iata)+1);
-	aux->info=malloc(70*sizeof(char));
+	aux->info=malloc(strlen(info)+1);
 	if (aux!=NULL && oaci!=NULL && local!=NULL && iata!=NULL && info!=NULL)
 		{
 		flag=1;
