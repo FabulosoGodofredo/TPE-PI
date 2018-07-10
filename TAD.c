@@ -1,10 +1,12 @@
-typedef struct listCDT * listADT;
-typedef struct mainAirport * mainAirportADT;
-typedef struct subAir * subAirADT;
-
-*/ List of sub lists where every node on the main list is an Airport from the Airport.cvs file so that all Airports are included
+*/ List of sub lists were every node on the main list is an Airport from the Airport.cvs file so that all Airports are included
 in alphabetical order according to their oaci. The sublists of every node consist of Airports arranged in aplhabetical order 
 according to oaci (that may or may not be on the main list) that had a flight takeoff to or landed from the main node´s Airport /*
+
+typedef struct listCDT * listADT;
+
+typedef struct mainAirport * mainAirportADT;
+
+typedef struct subAir * subAirADT;
 
 typedef struct subAir{
 char * oaci;
