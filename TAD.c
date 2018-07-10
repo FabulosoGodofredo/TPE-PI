@@ -105,15 +105,13 @@ if(l==NULL || strcmp(l->oaci,oaci)>0)
 		strcpy(aux->iata,iata);
 		strcpy(aux->info,info);
 		l->traffic=traffic;
+		aux->nextMain=l;
+		return aux;
 		}
-	aux->nextMain=l;
-	return aux;
 	}
 else
-	{
 	l->nextMain=addmainAirRec(l->nextMain, oaci, local, iata, info, traffic, flag);
-	return l;
-	}
+return l;
 }
 
 int
