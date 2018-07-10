@@ -239,5 +239,153 @@ QuerryUNOrec(Querry1,list->firstMain);
 return 1;
 }
 
+static void
+QuerryUNOrec(FILE *f, mainAirportADT l, char item)
+{
+if(l!=NULL)
+{
+	int suma=(l->takeoffs)+(l->landings);
+	if(suma!=0)
+		{
+		fwrite(l->oaci, 1, sizeof(l->oaci), f);
+		fwrite(item,1,sizeof(char),f);
+		fwrite(l->local, 1, sizeof(l->local), f);
+		fwrite(item,1,sizeof(char),f);
+		fwrite(l->info, 1, sizeof(l->info), f);
+		fwrite(item,1,sizeof(char),f);
+		fwrite(suma, sizeof(int), 1, f);
+		fwrite(\n,1,sizeof(char),f);
+		QuerryUNOrec(f,l->nextMain);
+		}
+}
+return;
+}
+
+int
+QuerryUNO(listADT list)
+{
+FILE * Querry1;
+Querry1 = fopen("desktop/TPE/movs_aeropuerto.csv","wt");
+if (Querry1==NULL)
+{
+	fclose(Querry1);
+	return 0;
+}
+char item=';';
+QuerryUNOrec(Querry1,list->firstMain,item);
+fclose(Querry1);
+return 1;
+}
+
+static void
+QuerryDOSrec(FILE *f, mainAirportADT l, char item)
+{
+if(l!=NULL)
+{
+	int suma=(l->takeoffsInter)+(l->landingsInter);
+	if(suma!=0)
+	{
+		fwrite(l->oaci, 1, sizeof(l->oaci), f);
+		fwrite(item,1,sizeof(char),f);
+		fwrite(l->iata, 1, sizeof(l->iata), f);
+		fwrite(item,1,sizeof(char),f);
+		fwrite(l->takeoffsInter, sizeof(int), 1, f);
+		fwrite(item,1,sizeof(char),f);
+		fwrite(l->landingsInter, sizeof(int), 1, f);
+		fwrite(item,1,sizeof(char),f);
+		fwrite(suma, sizeof(int), 1, f);
+		fwrite(\n,1,sizeof(char),f);
+		QuerryDOSrec(f,l->nextMain);
+	}
+}
+return;
+}
+
+int
+QuerryDOS(listADT list)
+{
+FILE * Querry2;
+Querry2 = fopen("desktop/TPE/movs_internacional.csv","wt");
+if (Querry2==NULL)
+{
+	fclose(Querry2);
+	return 0;
+}
+char item=';';
+QuerryDosrec(Querry2,list->firstMain, item);
+fclose(Querry2);
+return 1;
+}
+
+int
+QuerryTRES(listADT list)
+{
+FILE * Querry3;
+Querry3 = fopen("desktop/TPE/semanal.csv","wt");
+if (Querry3==NULL)
+{
+	fclose(Querry3);
+	return 0;
+}
+char **vec = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"};
+char item=';';
+for (i=0; i < 7; i++) 
+{
+	fwrite(vec[i][], 1, sizeof(l->oaci), f);
+	fwrite(item,1,sizeof(char),f);
+	fwrite(l->week[i]);
+	fwrite(\n,1,sizeof(char),f);
+}
+fclose(Querry3);
+return 1;
+}
+
+static void
+QuerryCUATROrecrec(FILE *f, mainAirportADT l, subAirADT s, char item)
+{
+if(s!=NULL)
+{
+	fwrite(l->oaci, 1, sizeof(l->oaci), f);
+	fwrite(item,1,sizeof(char),f);
+	fwrite(s->oaci, 1, sizeof(l->iata), f);
+	fwrite(item,1,sizeof(char),f);
+	fwrite(s->takeoffs, sizeof(int), 1, f);
+	fwrite(item,1,sizeof(char),f);
+	fwrite(s->landings, sizeof(int), 1, f);
+	fwrite(\n,1,sizeof(char),f);
+	QuerryCUATROrecrec(f,l->nextMain);
+}
+return;
+}
+
+static void
+QuerryCUATROrec(FILE *f, mainAirportADT l,char item)
+{
+if(l!=NULL)
+{
+	if(suma!=0)
+	{
+		QuerryCUATROrecrec(f,l,l->firstSub,item);
+		QuerryCUATROrec(f,l->nextMain,item);
+	}
+}
+return;
+}
+
+int
+QuerryCUATRO(listADT list)
+{
+FILE * Querry4;
+Querry4 = fopen("desktop/TPE/aerop_detalle.csv","wt");
+if (Querry4==NULL)
+{
+	fclose(Querry4);
+	return 0;
+}
+char item=';';
+QuerryCUATROrec(Querry1,list->firstMain, item);
+fclose(Querry4);
+return 1;
+}
 
 
