@@ -38,7 +38,14 @@ listADT
 newList(void)
 {
 listADT list=calloc(sizeof(listCDT),1);
-list->week = calloc(sizeof(int),7);
+list->week = malloc(sizeof(int),7);
+if(list->week != NULL)
+	{
+	for(size_t i=0; i<7;i++)
+		list.week[i]=0;
+	}
+else
+	return NULL;
 return list;
 }
 
