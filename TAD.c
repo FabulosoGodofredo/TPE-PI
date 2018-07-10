@@ -85,7 +85,7 @@ return;
 int
 addmainAir(listADT l, char * oaci, char * local, char * iata, char * info, size_t traffic)
 {
-flag=0;
+int flag=0;
 l->firstMain=addmainAirRec(l->firstMain, oaci, local, iata, info, traffic, &flag);
 if(flag)
 	return 1;
