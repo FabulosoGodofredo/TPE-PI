@@ -72,7 +72,53 @@ free(firstSub);
 }
 
 int
-addmainAir()
+addmainAir(listADT l, char * oaci, char * local, char * iata, char * info, size_t traffic)
+{
+flag=0;
+l->firstMain=addmainAirRec(l->firstMain, oaci, local, iata, info, traffic, &flag);
+if(flag)
+	return 1;
+return 0;
+}
+
+mainAirportADT
+addmainAirRec(listADT l, char * oaci, char * local, char * iata, char * info, size_t traffic, int *flag)
+{
+if(l==NULL)
+	{
+	mainAirportADT aux=calloc(sizeof * aux);
+	if (aux!=NULL)
+		{
+		flag=1;
+		strcpy(aux->oaci,oaci);
+		strcpy(aux->local,local);
+		strcpy(aux->iata,iata);
+		strcpy(aux->info,info);
+		l->traffic=traffic;
+		}
+	return aux;
+	}
+if(strcmp(l->oaci,oaci)<0)
+	{
+	l->nextMain=addmainAirRec(l->nextMain, oaci, local, iata, info, traffic, flag);
+	return l;
+	}
+else 
+	{
+	mainAirportADT aux=calloc(sizeof * aux);
+	if (aux!=NULL)
+		{
+		flag=1;
+		aux->nextMain=l;
+		strcpy(aux->oaci,oaci);
+		strcpy(aux->local,local);
+		strcpy(aux->iata,iata);
+		strcpy(aux->info,info);
+		l->traffic=traffic;
+		}
+	return aux;
+	}
+}
 
 int
 addsubAir()
