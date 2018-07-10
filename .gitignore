@@ -48,7 +48,7 @@ return list;
 void
 freeList(ListADT list)
 {
-freeMain(list->firstMain);
+freerecMain(list->firstMain);
 free(list);
 }
 
@@ -84,10 +84,14 @@ return 0;
 mainAirportADT
 addmainAirRec(listADT l, char * oaci, char * local, char * iata, char * info, size_t traffic, int *flag)
 {
-if(l==NULL)
+if(l==NULL || strcmp(l->oaci,oaci)>0)
 	{
 	mainAirportADT aux=calloc(sizeof * aux);
-	if (aux!=NULL)
+	aux->oaci=calloc(4*sizeof(char));
+	aux->local=calloc(4*sizeof(char));
+	aux->iata=calloc(4*sizeof(char));
+	aux->info=calloc(4*sizeof(char));
+	if (aux!=NULL && oaci!=NULL && local!=NULL && iata!=NULL && info!=NULL)
 		{
 		flag=1;
 		strcpy(aux->oaci,oaci);
@@ -96,27 +100,13 @@ if(l==NULL)
 		strcpy(aux->info,info);
 		l->traffic=traffic;
 		}
+	aux->nextMain=l;
 	return aux;
 	}
-if(strcmp(l->oaci,oaci)<0)
+else
 	{
 	l->nextMain=addmainAirRec(l->nextMain, oaci, local, iata, info, traffic, flag);
 	return l;
-	}
-else 
-	{
-	mainAirportADT aux=calloc(sizeof * aux);
-	if (aux!=NULL)
-		{
-		flag=1;
-		aux->nextMain=l;
-		strcpy(aux->oaci,oaci);
-		strcpy(aux->local,local);
-		strcpy(aux->iata,iata);
-		strcpy(aux->info,info);
-		l->traffic=traffic;
-		}
-	return aux;
 	}
 }
 
