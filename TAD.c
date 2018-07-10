@@ -4,10 +4,6 @@
 #include <string.h>
 #include "vuelosADT.h"
 
-#define TRUE 1
-#define FALSE 0
-#define NO_TRAFFIC 2
-
 /* List of sub lists were every node on the main list is an Airport from the Airport.cvs file so that all Airports are included
 in alphabetical order according to their oaci. The sublists of every node consist of Airports arranged in aplhabetical order 
 according to oaci (that may or may not be on the main list) that had a flight takeoff to or landed from the main node´s Airport /*
@@ -30,7 +26,6 @@ char * oaci;
 char * local;
 char * iata;
 char * info; // name of Airport
-size_t traffic; // 0 national 1 international
 size_t takeoffs;
 size_t landings;
 size_t landingsInter;
@@ -95,17 +90,17 @@ return;
 }
 
 int
-addmainAir(listADT l, char * oaci, char * local, char * iata, char * info, size_t traffic)
+addmainAir(listADT l, char * oaci, char * local, char * iata, char * info)
 {
 int flag=0;
-l->firstMain=addmainAirRec(l->firstMain, oaci, local, iata, info, traffic, &flag);
+l->firstMain=addmainAirRec(l->firstMain, oaci, local, iata, info, &flag);
 if(flag)
 	return 1;
 return 0;
 }
 
 static mainAirportADT
-addmainAirRec(mainAirportADT l, char * oaci, char * local, char * iata, char * info, size_t traffic, int *flag)
+addmainAirRec(mainAirportADT l, char * oaci, char * local, char * iata, char * info, int *flag)
 {
 if(l==NULL || strcmp(l->oaci,oaci)>0)
 	{
@@ -121,13 +116,12 @@ if(l==NULL || strcmp(l->oaci,oaci)>0)
 		strcpy(aux->local,local);
 		strcpy(aux->iata,iata);
 		strcpy(aux->info,info);
-		l->traffic=traffic;
 		aux->nextMain=l;
 		return aux;
 		}
 	}
 else
-	l->nextMain=addmainAirRec(l->nextMain, oaci, local, iata, info, traffic, flag);
+	l->nextMain=addmainAirRec(l->nextMain, oaci, local, iata, info, flag);
 return l;
 }
 
