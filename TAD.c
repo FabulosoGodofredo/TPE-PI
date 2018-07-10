@@ -43,12 +43,12 @@ mainAirportADT firstMain;
 listADT
 newList(void)
 {
-list=calloc(sizeof(listCDT),1);
+listADT list=calloc(sizeof(listCDT),1);
 return list;
 }
 
 void
-freeList(ListADT list)
+freeList(listADT list)
 {
 freerecMain(list->firstMain);
 free(list);
