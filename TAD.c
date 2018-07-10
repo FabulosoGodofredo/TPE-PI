@@ -30,13 +30,7 @@ subAirADT firstSub;
 }mainAirport;
 
 typedef struct listCDT{
-size_t Lunes;
-size_t Martes;
-size_t Miercoles;
-size_t Jueves;
-size_t Viernes;
-size_t Sabado;
-size_t Domingo;
+int week[7];
 mainAirportADT firstMain;
 }listCDT;
 
@@ -44,6 +38,7 @@ listADT
 newList(void)
 {
 listADT list=calloc(sizeof(listCDT),1);
+list->week = calloc(sizeof(int),7);
 return list;
 }
 
@@ -98,10 +93,10 @@ addmainAirRec(mainAirportADT l, char * oaci, char * local, char * iata, char * i
 if(l==NULL || strcmp(l->oaci,oaci)>0)
 	{
 	mainAirportADT aux=calloc(sizeof * aux);
-	aux->oaci=calloc(4*sizeof(char));
-	aux->local=calloc(4*sizeof(char));
-	aux->iata=calloc(4*sizeof(char));
-	aux->info=calloc(4*sizeof(char));
+	aux->oaci=malloc(5);
+	aux->local=malloc(4);
+	aux->iata=malloc(strlen(iata)+1);
+	aux->info=malloc(70*sizeof(char));
 	if (aux!=NULL && oaci!=NULL && local!=NULL && iata!=NULL && info!=NULL)
 		{
 		flag=1;
