@@ -2,21 +2,16 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "vuelosADT.h"
+#include "TAD.h"
 
 /* List of sub lists were every node on the main list is an Airport from the Airport.cvs file so that all Airports are included
-in alphabetical order according to their oaci. The sublists of every node consist of Airports arranged in aplhabetical order 
+in alphabetical order according to their oaci. The sublists of every node consist of Airports arranged in aplhabetical order
 according to oaci (that may or may not be on the main list) that had a flight takeoff to or landed from the main node´s Airport */
 
-typedef struct listCDT * listADT;
-
-typedef struct mainAirport * mainAirportADT;
-
-typedef struct subAir * subAirADT;
 
 typedef struct subAir{
 char * oaci;
-size_t takeoffs; //amount of flights that takeoff from this specific subAirport to corresponding mainAirpot 
+size_t takeoffs; //amount of flights that takeoff from this specific subAirport to corresponding mainAirpot
 size_t landings; //amount of flights that land on this specific subAirport from corresponding mainAirport
 subAirADT nextSub;
 }subAir;
@@ -43,16 +38,21 @@ listADT                                      //we create a new list with the wee
 newList(void)
 {
 listADT list=calloc(sizeof(listCDT),1);
-list->week = malloc(sizeof(int),7);
-if(list->week != NULL)
-	{
-	for(size_t i=0; i<7;i++)
-		list.week[i]=0;
-	}
-else
-	return NULL;
 return list;
 }
+
+static void
+freerecSub(subAirADT firstSub)
+{
+if(firstSub!=NULL)
+	{
+	freerecSub(firstSub->nextSub);
+	free(firstSub->oaci);
+	free(firstSub);
+	}
+return;
+}
+
 
 static void
 freerecMain(mainAirportADT firstMain)
@@ -70,18 +70,6 @@ free(firstMain);
 return;
 }
 
-static void
-freerecSub(subAirADT firstSub)
-{
-if(firstSub!=NULL)
-	{
-	freerecSub(firstSub->nextSub);
-	free(firstSub->oaci);
-	free(firstSub);
-	}
-return;
-}
-
 void
 freeList(listADT list)                //Free all the saved information about airports and flights.
 {
@@ -95,7 +83,7 @@ addmainAirRec(mainAirportADT l, char * oaci, char * local, char * iata, char * i
 {
 if(l==NULL || strcmp(l->oaci,oaci)>0)
 	{
-	mainAirportADT aux=calloc(sizeof * aux);
+	mainAirportADT aux=malloc(sizeof(aux));
 	aux->oaci=malloc(5);
 	aux->local=malloc(4);
 	aux->iata=malloc(strlen(iata)+1);
@@ -128,12 +116,12 @@ return 0;
 }
 
 
-subAirADT
+static subAirADT
 addSubAirRec(subAirADT node, char * oaciDest,int type, int *flag)
 {
   if (node == NULL || (strcmp(node->oaci,oaciDest))>0)
   {
-    subAirADT new = calloc(sizeof(*new));
+    subAirADT new = malloc(sizeof(*new));
     new->oaci=malloc(4);
     if (new!=NULL && new->oaci!=NULL)
     {
@@ -168,7 +156,7 @@ addSubAirRec(subAirADT node, char * oaciDest,int type, int *flag)
 }
 
 
-int
+static int
 search(mainAirportADT m, char * oaciOr, char * oaciDest, size_t type,size_t movement) //here we search the airport in the main list, its not necessarly the one where the flight started.
 {
   if (m == NULL || (strcmp(m->oaci,oaciOr))>0)
@@ -177,14 +165,14 @@ search(mainAirportADT m, char * oaciOr, char * oaciDest, size_t type,size_t move
   }
   else if((strcmp(m->oaci,oaciOr))<0)
   {
-    return search(m->nextMain,oaciOr,oaciDest,type);
+    return search(m->nextMain,oaciOr,oaciDest,type,movement);
   }
   else
   {
     int flag=0;
-    if (movement==1) 
+    if (movement==1)
     {
-      if (type) 
+      if (type)
       {
         (m->takeoffsInter)++;
       }
@@ -192,7 +180,7 @@ search(mainAirportADT m, char * oaciOr, char * oaciDest, size_t type,size_t move
         (m->landingsInter)++;
     }
     if(type)
-    (m->takoffs)++;
+    (m->takeoffs)++;
     else
     (m->landings)++;
     m->firstSub=addSubAirRec(m->firstSub,oaciDest,type,&flag);
@@ -202,15 +190,14 @@ search(mainAirportADT m, char * oaciOr, char * oaciDest, size_t type,size_t move
 
 
 int                                                                                                       //Here we save all the relations between two airports, a relation is made when a flight is made from one airport to another. We do not create a new sublist to any airport that is not in the main list.
-addSubAir(listADT l, char * oaciOr, char * oaciDest, size_t day, size_t type, size_t movement,size_t flagday)            //type:aterrizaje=0/despegue=1,  movement:cabotaje=0/internacional=1 flagday tells us if that flight was already added to the week array or not.
+addSubAir(listADT l, char * oaciOr, char * oaciDest, size_t day, size_t type, size_t movement,int flagday)            //type:aterrizaje=0/despegue=1,  movement:cabotaje=0/internacional=1 flagday tells us if that flight was already added to the week array or not.
 {
-  int flag=0;
   if (l == NULL || l->firstMain == NULL)
   {
     return 0;
   }
 if(flagday)
-  (l.week[day])++;
+  (*l).week[day]++;
 
   if(!(search(l->firstMain,oaciOr,oaciDest,type,movement)))
   {
@@ -224,17 +211,17 @@ QuerryUNOrec(FILE *f, mainAirportADT l)
 {
 if(l==NULL)
 return;
-int suma=l->takeoffs+l->landings;
+int suma[1]={l->takeoffs+l->landings};
 if(suma!=0)
 	{
 	fwrite(l->oaci, 1, sizeof(l->oaci), f);
-	fwrite(;,1,sizeof(char),f);
+	fwrite(";",1,sizeof(char),f);
 	fwrite(l->local, 1, sizeof(l->local), f);
-	fwrite(;,1,sizeof(char),f);
+	fwrite(";",1,sizeof(char),f);
 	fwrite(l->info, 1, sizeof(l->info), f);
-	fwrite(;,1,sizeof(char),f);
+	fwrite(";",1,sizeof(char),f);
 	fwrite(suma, sizeof(int), 1, f);
-	fwrite(\n,1,sizeof(char),f);
+	fwrite("\n",1,sizeof(char),f);
 	QuerryUNOrec(f,l->nextMain);
 	}
 return;
@@ -248,10 +235,9 @@ FILE * Querry1;
 Querry1 = fopen("desktop/TPE/movs_aeropuerto.csv","wt");
 if (Querry1==NULL)
 	 return 0;
-QuerryUNOrec(Querry1,list->firstMain)
+QuerryUNOrec(Querry1,list->firstMain);
 return 1;
 }
-
 
 
 
