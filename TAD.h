@@ -16,5 +16,11 @@ int addSubAir(listADT l, char * oaciOr, char * oaciDest, size_t day, size_t type
 
 int QuerryUNO(listADT list);
 
+int QuerryDOS(listADT list);
+
+int QuerryTRES(listADT list);
+
+int QuerryCUATRO(listADT list);
+
 #endif
 
