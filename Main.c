@@ -5,7 +5,7 @@
 #include "vuelosADT.h"
 
 int
-dateToDay(char* str)
+dateToDay(char* str)               //This tell us what day this is.
 {
   int d=0, m=0, y=0, count=0;
   d+=((str[0]-'0')*10+(str[1]-'0')-1);
@@ -21,7 +21,7 @@ dateToDay(char* str)
       count+=1;
     }
   count+=((y-2014)*365+d);
-  return (count+2)%7;
+  return (count+2)%7;              //The first day of 2014 is Wednesday, so we +2, so 0 es monday, 1 tuesday...
 }
 
 
@@ -107,7 +107,7 @@ main()
 
   fy= fopen("vuelos.csv","rt");
 
-  if (fy == NULL)
+  if (fy == NULL)          //To make sure that there is still more memory to analyze the second file.
   {
     printf("The file aeropuertos.csv could not be read\n");
     OutMem=1;   //ends with error
@@ -115,7 +115,7 @@ main()
 
   else
   {
-    fgets(flight,66,fy);
+    fgets(flight,66,fy);       //here we send all the information needed to complete the sublists.
     int Notfirst=0;
     int Imovement=0
     int Itype=0
@@ -125,7 +125,7 @@ main()
         if (Notfirst)
         {
           strcpy(day,strtok(flight,";"));
-          int Iyear= 1000*(*(day+6)-'0')+100*(*(day+7)-'0')+10*(*(day+8)-'0')+(*(day+9)-'0')
+          int Iyear= 1000*(*(day+6)-'0')+100*(*(day+7)-'0')+10*(*(day+8)-'0')+(*(day+9)-'0') 
           if (year == Iyear) 
           {
             int Iday = dateToDay(day);
