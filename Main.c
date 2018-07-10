@@ -67,6 +67,7 @@ main()
         Notfirst=1;             //The TITLE was already read so the flag it is no longer useful, so we left it in 1.
         
     }
+    pf=fclose("aeropuertos.csv","rt");       //we close the file after we dont need more information from it.
   }
   
 }
