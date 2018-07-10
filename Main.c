@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "vuelosADT.h"
+#include "TAD.h"
+#include "getnum.h"
 
 int
 dateToDay(char* str)               //This tell us what day this is.
@@ -26,20 +27,21 @@ dateToDay(char* str)               //This tell us what day this is.
 
 
 int
-main()
+main(void)
 {
   int error=0;        //indicates if OACI is empty
   int OutMem=0;       //indicates if there is no memory for adding a new Airport
+  int year=getint("Insert a year between 2014-2018 inclusive: \n");
   FILE * pf;
-  
+
   listADT list = newList();
-  if (list == NULL) 
+  if (list == NULL)
   {
     printf("There is no enough memory to create the list\n");
   }
   char aeros[95];
   memset(aeros,0,95);  //We fill the array with \0
-  
+
   char local[4];
   char oaci[5];
   char iata[4];
@@ -48,7 +50,7 @@ main()
 
   pf= fopen("aeropuertos.csv","rt");  //try to open "aeropuertos.csv" in reading mode.
 
-  if (pf == NULL) 
+  if (pf == NULL)
   {
     printf("The file aeropuertos.csv could not be read\n");
     return 1;   //ends with error.
@@ -56,16 +58,16 @@ main()
 
   else
   {
-    fgets(aeros,95,pf);   //reads a line and saves it in an array 
+    fgets(aeros,95,pf);   //reads a line and saves it in an array
     int Notfirst=0;       // it is the TITLE which explains in which order the information is written, it is not added it to the list.
-    
-    while (!feof(pf) && !OutMem) 
+
+    while (!feof(pf) && !OutMem)
     {
-      if (Notfirst) 
+      if (Notfirst)
       {
         strcpy(local,strtok(aeros,";"));
         strcpy(oaci,strtok(NULL,";"));
-        if (*oaci != ' ') 
+        if (*oaci != ' ')
         {
           strcpy(iata,strtok(NULL,";"));
           strtok(NULL,";");                //we skip the information of the type, type indicates if its Airport or Heliport.
@@ -74,26 +76,26 @@ main()
         else
           error=1;
 
-          if (!error && !addmainAir(list,oaci,local,iata,info)) 
+          if (!error && !(addmainAir(list,oaci,local,iata,info)))
           {
-            printf("The Airport %s could not be added %s\n",local);
+            printf("The Airport %s could not be added\n",local);
             OutMem=1;
           }
       }
-        
+
         memset(aeros,0,95);
         fgets(aeros,95,pf);
         error=0;                //as the OACI of the next airport can be in blank, we change the value of the flag back to 0
         Notfirst=1;             //The TITLE was already read so the flag it is no longer useful, so we left it in 1.
-        
+
     }
   }
   fclose(pf);       //we close the file after we dont need more information from it.
-  
-  if (OutMem) 
+
+  if (OutMem)
   {
     return 1;     //error
-  }  
+  }
 
   FILE * fy;
   char flight[66];
@@ -117,16 +119,17 @@ main()
   {
     fgets(flight,66,fy);       //here we send all the information needed to complete the sublists.
     int Notfirst=0;
-    int Imovement=0
-    int Itype=0
+    int Imovement=0;
+    int Itype=0;
+    int flagday=1;
 
       while (!feof(pf) && !OutMem)
       {
         if (Notfirst)
         {
           strcpy(day,strtok(flight,";"));
-          int Iyear= 1000*(*(day+6)-'0')+100*(*(day+7)-'0')+10*(*(day+8)-'0')+(*(day+9)-'0') 
-          if (year == Iyear) 
+          int Iyear= 1000*(*(day+6)-'0')+100*(*(day+7)-'0')+10*(*(day+8)-'0')+(*(day+9)-'0');
+          if (year == Iyear)
           {
             int Iday = dateToDay(day);
             strtok(NULL,";");
@@ -151,7 +154,7 @@ main()
                  OutMem=1;
                }
             }
-            if (!addSubAir(list,oaciOr,oaciDest,Iday,Itype,Imovement,flag))
+            if (!addSubAir(list,oaciOr,oaciDest,Iday,Itype,Imovement,flagday))
              {
                printf("The Airport %s could not be added\n",oaciOr);
                OutMem=1;
@@ -170,7 +173,7 @@ main()
   if (OutMem) {
     return 1;
   }
-  
 
-  return 0;  
+
+  return 0;
 }
