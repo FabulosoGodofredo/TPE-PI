@@ -4,6 +4,26 @@
 #include <string.h>
 #include "vuelosADT.h"
 
+int
+dateToDay(char* str)
+{
+  int d=0, m=0, y=0, count=0;
+  d+=((str[0]-'0')*10+(str[1]-'0')-1);
+  m+=((str[3]-'0')*10+(str[4]-'0'));
+  y+=(2010+(str[9]-'0'));
+  int month[]={31,28,31,30,31,30,31,31,30,31,30,31};
+  for (size_t i = 1; i < m; i++)
+    {
+      count+=month[i];
+    }
+  if(y>2016 || (y==2016 && m>2))
+    {
+      count+=1;
+    }
+  count+=((y-2014)*365+d);
+  return (count+2)%7;
+}
+
 
 int
 main()
@@ -69,4 +89,88 @@ main()
     }
   }
   fclose(pf);       //we close the file after we dont need more information from it.
+  
+  if (OutMem) 
+  {
+    return 1;     //error
+  }  
+
+  FILE * fy;
+  char flight[66];
+  memset(flight,0,66);
+
+  char day[11];
+  char movement[14];
+  char type[11];
+  char oaciOr[5];
+  char oaciDest[8];
+
+  fy= fopen("vuelos.csv","rt");
+
+  if (fy == NULL)
+  {
+    printf("The file aeropuertos.csv could not be read\n");
+    OutMem=1;   //ends with error
+  }
+
+  else
+  {
+    fgets(flight,66,fy);
+    int Notfirst=0;
+    int Imovement=0
+    int Itype=0
+
+      while (!feof(pf) && !OutMem)
+      {
+        if (Notfirst)
+        {
+          strcpy(day,strtok(flight,";"));
+          int Iyear= 1000*(*(day+6)-'0')+100*(*(day+7)-'0')+10*(*(day+8)-'0')+(*(day+9)-'0')
+          if (year == Iyear) 
+          {
+            int Iday = dateToDay(day);
+            strtok(NULL,";");
+            strtok(NULL,";");
+            strcpy(movement,strtok(NULL,";"));
+            if ((strcmp(movement,"Internacional")) == 0)
+            {
+                Imovement=1;
+            }
+            strcpy(type,strtok(NULL,";"));
+            if ((strcmp(type,"Despegue"))==0)
+            {
+                Itype=1;
+            }
+            strcpy(oaciOr,strtok(NULL,";"));
+            strcpy(oaciDest,strtok(NULL,";"));
+            if (!isdigit(*(oaciDest+3)))
+            {
+              if (!addSubAir(list,oaciDest,oaciOr,Iday,!Itype,Imovement,!flagday))
+               {
+                 printf("The Airport %s could not be added\n",oaciOr);
+                 OutMem=1;
+               }
+            }
+            if (!addSubAir(list,oaciOr,oaciDest,Iday,Itype,Imovement,flag))
+             {
+               printf("The Airport %s could not be added\n",oaciOr);
+               OutMem=1;
+             }
+        }
+      }
+
+        memset(flight,0,65);
+        fgets(flight,65,fy);
+        Notfirst=1;
+        Imovement=0;
+        Itype=0;
+      }
+  }
+  fclose(fy);
+  if (OutMem) {
+    return 1;
+  }
+  
+
+  return 0;  
 }
