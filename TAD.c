@@ -1,3 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include "vuelosADT.h"
+
+
+#define TRUE 1
+#define FALSE 0
+#define NO_TRAFFIC 2
+
+
+
 /* List of sub lists were every node on the main list is an Airport from the Airport.cvs file so that all Airports are included
 in alphabetical order according to their oaci. The sublists of every node consist of Airports arranged in aplhabetical order 
 according to oaci (that may or may not be on the main list) that had a flight takeoff to or landed from the main node´s Airport /*
