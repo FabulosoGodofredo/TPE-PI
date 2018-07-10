@@ -219,6 +219,38 @@ if(flagday)
   return 1;
 }
 
+void
+QuerryUNOrec(FILE *f, mainAirportADT l)
+{
+if(l==NULL)
+return;
+int suma=l->takeoffs+l->landings;
+if(suma!=0)
+	{
+	fwrite(l->oaci, 1, sizeof(l->oaci), f);
+	fwrite(;,1,sizeof(char),f);
+	fwrite(l->local, 1, sizeof(l->local), f);
+	fwrite(;,1,sizeof(char),f);
+	fwrite(l->info, 1, sizeof(l->info), f);
+	fwrite(;,1,sizeof(char),f);
+	fwrite(suma, sizeof(int), 1, f);
+	fwrite(\n,1,sizeof(char),f);
+	QuerryUNOrec(f,l->nextMain);
+	}
+return;
+}
+
+
+int
+QuerryUNO(listADT list)
+{
+FILE * Querry1;
+Querry1 = fopen("desktop/TPE/movs_aeropuerto.csv","wt");
+if (Querry1==NULL)
+	 return 0;
+QuerryUNOrec(Querry1,list->firstMain)
+return 1;
+}
 
 
 
