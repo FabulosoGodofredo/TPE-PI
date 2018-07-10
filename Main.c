@@ -15,10 +15,10 @@ main()
   listADT list = newList();
   if (list == NULL) 
   {
-    printf("No hay espacio suficiente para el programa\n");
+    printf("There is no enough memory to create the list\n");
   }
   char aeros[95];
-  memset(aeros,0,95);  //Llenamos todo el vector con \0
+  memset(aeros,0,95);  //We fill the array with \0
   
   char local[4];
   char oaci[5];
@@ -26,18 +26,18 @@ main()
   char info[71];
 
 
-  pf= fopen("aeropuertos.csv","rt");  //try to open "aeropuertos.csv" in reading mode
+  pf= fopen("aeropuertos.csv","rt");  //try to open "aeropuertos.csv" in reading mode.
 
   if (pf == NULL) 
   {
     printf("The file aeropuertos.csv could not be read\n");
-    return 1;   //ends with error
+    return 1;   //ends with error.
   }
 
   else
   {
     fgets(aeros,95,pf);   //reads a line and saves it in an array 
-    int Notfirst=0;       // its the TITTLE line, do not add it to the list
+    int Notfirst=0;       // it is the TITLE which explains in which order the information is written, it is not added it to the list.
     
     while (!feof(pf) && !OutMem) 
     {
@@ -48,7 +48,7 @@ main()
         if (*oaci != ' ') 
         {
           strcpy(iata,strtok(NULL,";"));
-          strtok(NULL,";");
+          strtok(NULL,";");                //we skip the information of the type, type indicates if its Airport or Heliport.
           strcpy(info,strtok(NULL,";"));
         }
         else
@@ -63,8 +63,8 @@ main()
         
         memset(aeros,0,95);
         fgets(aeros,95,pf);
-        error=0;
-        Notfirst=1;
+        error=0;                //as the OACI of the next airport can be in blank, we change the value of the flag back to 0
+        Notfirst=1;             //The TITLE was already read so the flag it is no longer useful, so we left it in 1.
         
     }
   }
