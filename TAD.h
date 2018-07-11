@@ -23,4 +23,3 @@ int QuerryTRES(listADT list);
 int QuerryCUATRO(listADT list);
 
 #endif
-
