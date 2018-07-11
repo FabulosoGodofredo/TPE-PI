@@ -207,21 +207,21 @@ if(flagday)
 }
 
 static void
-QuerryUNOrec(FILE *f, mainAirportADT l, char item)
+QuerryUNOrec(FILE *f, mainAirportADT l)
 {
 if(l!=NULL)
 {
-	int suma=(l->takeoffs)+(l->landings);
+	int suma[1]={l->takeoffs+l->landings};
 	if(suma!=0)
 		{
 		fwrite(l->oaci, 1, sizeof(l->oaci), f);
-		fwrite(item,1,sizeof(char),f);
+		fwrite(";",1,sizeof(char),f);
 		fwrite(l->local, 1, sizeof(l->local), f);
-		fwrite(item,1,sizeof(char),f);
+		fwrite(";",1,sizeof(char),f);
 		fwrite(l->info, 1, sizeof(l->info), f);
-		fwrite(item,1,sizeof(char),f);
+		fwrite(";",1,sizeof(char),f);
 		fwrite(suma, sizeof(int), 1, f);
-		fwrite(\n,1,sizeof(char),f);
+		fwrite("\n",1,sizeof(char),f);
 		QuerryUNOrec(f,l->nextMain);
 		}
 }
@@ -238,30 +238,30 @@ if (Querry1==NULL)
 	fclose(Querry1);
 	return 0;
 }
-char item=';';
-QuerryUNOrec(Querry1,list->firstMain,item);
+QuerryUNOrec(Querry1,list->firstMain);
 fclose(Querry1);
 return 1;
 }
 
 static void
-QuerryDOSrec(FILE *f, mainAirportADT l, char item)
+QuerryDOSrec(FILE *f, mainAirportADT l)
 {
 if(l!=NULL)
 {
-	int suma=(l->takeoffsInter)+(l->landingsInter);
+	int suma[1]={l->takeoffsInter+l->landingsInter};
 	if(suma!=0)
 	{
 		fwrite(l->oaci, 1, sizeof(l->oaci), f);
-		fwrite(item,1,sizeof(char),f);
+		fwrite(";",1,sizeof(char),f);
 		fwrite(l->iata, 1, sizeof(l->iata), f);
-		fwrite(item,1,sizeof(char),f);
-		fwrite(l->takeoffsInter, sizeof(int), 1, f);
-		fwrite(item,1,sizeof(char),f);
-		fwrite(l->landingsInter, sizeof(int), 1, f);
-		fwrite(item,1,sizeof(char),f);
+		fwrite(";",1,sizeof(char),f);
+		int tk[2]={l->takeoffsInter,l->landingsInter};
+		fwrite(tk, sizeof(int), 1, f);
+		fwrite(";",1,sizeof(char),f);
+		fwrite(tk+1, sizeof(int), 1, f);
+		fwrite(";",1,sizeof(char),f);
 		fwrite(suma, sizeof(int), 1, f);
-		fwrite(\n,1,sizeof(char),f);
+		fwrite("\n",1,sizeof(char),f);
 		QuerryDOSrec(f,l->nextMain);
 	}
 }
@@ -278,8 +278,7 @@ if (Querry2==NULL)
 	fclose(Querry2);
 	return 0;
 }
-char item=';';
-QuerryDosrec(Querry2,list->firstMain, item);
+QuerryDOSrec(Querry2,list->firstMain);
 fclose(Querry2);
 return 1;
 }
@@ -294,47 +293,44 @@ if (Querry3==NULL)
 	fclose(Querry3);
 	return 0;
 }
-char **vec = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"};
-char item=';';
-for (i=0; i < 7; i++) 
+char *vec[] = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"};
+for (int i=0; i < 7; i++)
 {
-	fwrite(vec[i][], 1, sizeof(l->oaci), f);
-	fwrite(item,1,sizeof(char),f);
-	fwrite(l->week[i]);
-	fwrite(\n,1,sizeof(char),f);
+	fwrite(vec[i], 1, sizeof(*vec[i]), Querry3);
+	fwrite(";",1,sizeof(char),Querry3);
+	fwrite((list->week)+i,sizeof(int),1,Querry3);
+	fwrite("\n",1,sizeof(char),Querry3);
 }
 fclose(Querry3);
 return 1;
 }
 
 static void
-QuerryCUATROrecrec(FILE *f, mainAirportADT l, subAirADT s, char item)
+QuerryCUATROrecrec(FILE *f, mainAirportADT l, subAirADT s)
 {
 if(s!=NULL)
 {
 	fwrite(l->oaci, 1, sizeof(l->oaci), f);
-	fwrite(item,1,sizeof(char),f);
+	fwrite(";",1,sizeof(char),f);
 	fwrite(s->oaci, 1, sizeof(l->iata), f);
-	fwrite(item,1,sizeof(char),f);
-	fwrite(s->takeoffs, sizeof(int), 1, f);
-	fwrite(item,1,sizeof(char),f);
-	fwrite(s->landings, sizeof(int), 1, f);
-	fwrite(\n,1,sizeof(char),f);
-	QuerryCUATROrecrec(f,l->nextMain);
+	fwrite(";",1,sizeof(char),f);
+	int tk[2]={s->takeoffs,s->landings};
+	fwrite(tk, sizeof(int), 1, f);
+	fwrite(";",1,sizeof(char),f);
+	fwrite(tk+1, sizeof(int), 1, f);
+	fwrite("\n",1,sizeof(char),f);
+	QuerryCUATROrecrec(f,l,s->nextSub);
 }
 return;
 }
 
 static void
-QuerryCUATROrec(FILE *f, mainAirportADT l,char item)
+QuerryCUATROrec(FILE *f, mainAirportADT l)
 {
 if(l!=NULL)
 {
-	if(suma!=0)
-	{
-		QuerryCUATROrecrec(f,l,l->firstSub,item);
-		QuerryCUATROrec(f,l->nextMain,item);
-	}
+		QuerryCUATROrecrec(f,l,l->firstSub);
+		QuerryCUATROrec(f,l->nextMain);
 }
 return;
 }
@@ -349,10 +345,8 @@ if (Querry4==NULL)
 	fclose(Querry4);
 	return 0;
 }
-char item=';';
-QuerryCUATROrec(Querry1,list->firstMain, item);
+QuerryCUATROrec(Querry4,list->firstMain);
 fclose(Querry4);
 return 1;
 }
-
 
