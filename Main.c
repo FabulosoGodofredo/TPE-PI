@@ -166,8 +166,8 @@ main(void)
         }
       }
 
-        memset(flight,0,65);
-        fgets(flight,65,fy);
+        memset(flight,0,66);
+        fgets(flight,66,fy);
         Notfirst=1;
         Imovement=0;
         Itype=0;
