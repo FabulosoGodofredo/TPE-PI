@@ -83,7 +83,7 @@ addmainAirRec(mainAirportADT l, char * oaci, char * local, char * iata, char * i
 {
 if(l==NULL || strcmp(l->oaci,oaci)>0)
 	{
-	mainAirportADT aux=malloc(sizeof(aux));
+	mainAirportADT aux=malloc(sizeof(*aux));
 	aux->oaci=malloc(5);
 	aux->local=malloc(4);
 	aux->iata=malloc(strlen(iata)+1);
