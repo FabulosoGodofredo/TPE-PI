@@ -32,6 +32,10 @@ main(void)
   int error=0;        //indicates if OACI is empty
   int OutMem=0;       //indicates if there is no memory for adding a new Airport
   int year=getint("Insert a year between 2014-2018 inclusive: \n");
+  while(year<2014 || year>2018)
+  {
+  year=getint("Please verify that the year is between 2014-2018 inclusive, insert again: \n");
+  }
   FILE * pf;
 
   listADT list = newList();
@@ -48,11 +52,11 @@ main(void)
   char info[71];
 
 
-  pf= fopen("aeropuertos.csv","rt");  //try to open "aeropuertos.csv" in reading mode.
+  pf= fopen("aeropuertos_detalle.csv","rt");  //try to open "aeropuertos.csv" in reading mode.
 
   if (pf == NULL)
   {
-    printf("The file aeropuertos.csv could not be read\n");
+    printf("The file aeropuertos_detalle.csv could not be read\n");
     return 1;   //ends with error.
   }
 
@@ -111,7 +115,7 @@ main(void)
 
   if (fy == NULL)          //To make sure that there is still more memory to analyze the second file.
   {
-    printf("The file aeropuertos.csv could not be read\n");
+    printf("The file vuelos.csv could not be read\n");
     OutMem=1;   //ends with error
   }
 
@@ -179,6 +183,6 @@ QuerryDOS(list);
 QuerryTRES(list);
 QuerryCUATRO(list);
 freeList(list);
-  
+
   return 0;
 }
