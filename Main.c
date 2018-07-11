@@ -127,7 +127,7 @@ main(void)
     int Itype=0;
     int flagday=1;
 
-      while (!feof(pf) && !OutMem)
+      while (!feof(fy) && !OutMem)
       {
         if (Notfirst)
         {
